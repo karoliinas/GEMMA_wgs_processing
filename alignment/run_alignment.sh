@@ -185,7 +185,6 @@ export sample_id=""
 # Set values in global variables
 format_read_group() {
   filename=$1
-
   # https://gatk.broadinstitute.org/hc/en-us/articles/360035890671-Read-groups
 
   #ID = Read group identifier
@@ -195,33 +194,14 @@ format_read_group() {
   #LB = DNA preparation library identifier
 
   #Example: D052-FFPE_FSFP202427062-1r_HCCGMDSXY_L3_1.fq.gz
+  IFS='_' read -r SAMPLENAME BARCODE FLOWCELL LANE_R1 <<< "$filename"
+  LANE=${LANE_R1:0:4}
+  RGID="${FLOWCELL}.${LANE}"
+  PU="${FLOWCELL}.${LANE}"
+  SM="${SAMPLENAME}"
+  LB="${SAMPLENAME}_lib"
 
-  arr=(${filename//_/ })
-
-  local sample=$(echo ${arr[0]})
-  local sample_barcode=$(echo ${arr[1]})
-  local flowcell=$(echo ${arr[2]})
-  local lane=$(echo ${arr[3]})
-  local mate=$(echo ${arr[4]})
-
-  parse_errors=0
-
-  if [[ -z "$sample" ]] ; then echo "ERROR: 'sample' not found."; parse_errors=1; fi
-  if [[ -z "$sample_barcode" ]] ; then echo "ERROR: 'sample_barcode' not found."; parse_errors=1; fi
-  if [[ -z "$flowcell" ]] ; then echo "ERROR: 'flowcell' not found."; parse_errors=1; fi
-  if [[ -z "$lane" ]] ; then echo "ERROR: 'lane' not found."; parse_errors=1; fi
-  if [[ -z "$mate" ]] ; then echo "ERROR: 'mate' not found."; parse_errors=1; fi
-  if [[ "$mate" != "1.fq.gz" ]] ; then echo "ERROR: file '$filename' should have '_1.fq.gz' suffix. ($mate)"; parse_errors=1; fi
-
-  if [[ $parse_errors -eq 1 ]] ; then echo "ERROR: input fastq files should be renamed to format: '{SAMPLENAME}_{BARCODE}_{FLOWCELL}_{LANE}_1.fq.gz'"; exit 1; fi
-
-  local ID="${flowcell}.${lane}"
-  local PU="${flowcell}.${lane}.${sample_barcode}"
-  local PL="${sequencer_str}"
-  local SM="${sample}"
-  local LB="0"
-
-  export sample_name="$sample" #sample group to merge together after alignment
+  export sample_name="$SM" #sample group to merge together after alignment
   export sample_id="$SM.$ID"
   export rg_tag="@RG\tSM:${SM}\tID:${ID}\tLB:${LB}\tPL:${PL}\tPU:${PU}"
 }
