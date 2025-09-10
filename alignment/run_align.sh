@@ -2,6 +2,8 @@
 #
 #
 # Align paired end fastq -files in the GEMMA project sequenced with illumina.
+# Extracts read group (rg) -tags from fastq -files and adds them to the aligned
+# bamfiles.
 # Samples are named so that the sampleid is separated with "." from the suffix,
 # i.e. 01-001-GMA.1.fq.gz
 # run in the dir with fastqs or use symbolic links
@@ -28,6 +30,6 @@ for mate1 in *1.fq.gz
     export mate2=${mate1/_1.fq.gz/_2.fq.gz}
     export bam=${sample_id}.hg38.rg.bam
     
-    bwa mem -t ${bwa_mem_threads} -R \"${rg_tag}\" $ref_genome ${mate1} ${mate2} | samtools fixmate -@ $bwa_sort_threads -m - - | samtools sort -@ $bwa_sort_threads - | samtools markdup -@ $bwa_sort_threads - $bam
+    bwa mem -t $bwa_mem_threads -R $rg_tag $ref_genome $mate1 $mate2 | samtools fixmate -@ $bwa_sort_threads -m - - | samtools sort -@ $bwa_sort_threads - | samtools markdup -@ $bwa_sort_threads - $bam
     samtools depth $bam | awk '{sum+=\$3} END { print \"$outfile =\",sum/NR,\"X\"}' > flagstat/${bam/.bam/.X} & samtools flagstat -@ $bwa_sort_threads $bam  > flagstat/${bam.bam/.flagstat}
 done
