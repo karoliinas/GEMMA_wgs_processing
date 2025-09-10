@@ -9,7 +9,7 @@
 mkdir -p flagstat
 export bwa_mem_threads=12
 export bwa_sort_threads=4
-export ref_genome=""
+export ref_genome="/mnt/gemma/bin/resources/homo_sapiens/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
 
 # get read group information
 for mate1 in *1.fq.gz
