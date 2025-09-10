@@ -6,6 +6,7 @@ Alignment and variant calling pipelines are suited for paired end Illumina short
 read sequencing.
 
 Pipeline:
-<img width="1178" height="1336" alt="Screenshot 2025-09-05 at 14 01 12" src="https://github.com/user-attachments/assets/19358aed-ec78-47da-8026-2d31a2155ea8" />
+<img width="766" height="873" alt="Screenshot 2025-09-10 at 12 11 28" src="https://github.com/user-attachments/assets/78df179c-678d-48f8-aea5-57eb4bfcecd2" />
+
 
 
