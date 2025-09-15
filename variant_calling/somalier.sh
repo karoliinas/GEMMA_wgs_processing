@@ -8,7 +8,7 @@
 # somalier instructions: https://github.com/brentp/somalier
 # somalier sites file downloaded from: https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz
 # somalier labels downloaded from: https://raw.githubusercontent.com/brentp/somalier/master/scripts/ancestry-labels-1kg.tsv
-# somalier_1kg downloaded from: https://zenodo.org/record/3479773/files/1kg.somalier.tar.gz?download=1
+# somalier_1kg downloaded from: https://zenodo.org/record/3479773/files/1kg.somalier.tar.gz
 #
 # Usage: ./somalier.sh multisample.vcf.gz
 #
